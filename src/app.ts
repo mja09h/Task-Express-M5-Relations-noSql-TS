@@ -1,6 +1,6 @@
 import express from "express";
 import connectDB from "./database";
-import postsRouter from "./api/posts.routers";
+import postsRouter from "./api/posts.routes";
 import notFound from "./middlewares/NotFound";
 import errorHandler from "./middlewares/ErrorHandler";
 
