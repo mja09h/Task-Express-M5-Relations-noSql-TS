@@ -3,7 +3,7 @@ import Post from "../models/Post";
 
 const getAllPosts = async (req: Request, res: Response) => {
     try {
-        const posts = await Post.find();
+        const posts = await Post.find().populate("author", "name");
         res.status(200).json(posts);
     } catch (error) {
         res.status(500).json({ message: "Error fetching posts" });
@@ -22,7 +22,7 @@ const createPost = async (req: Request, res: Response) => {
 
 const getPostById = async (req: Request, res: Response) => {
     try {
-        const post = await Post.findById(req.params.id);
+        const post = await Post.findById(req.params.id).populate("author", "name");
         res.status(200).json(post);
     } catch (error) {
         res.status(500).json({ message: "Error fetching post" });

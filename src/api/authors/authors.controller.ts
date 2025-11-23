@@ -3,7 +3,7 @@ import Author from "../../models/Author";
 
 const getAllAuthors = async (req: Request, res: Response) => {
     try {
-        const authors = await Author.find();
+        const authors = await Author.find().populate("posts");
         res.status(200).json(authors);
     } catch (error) {
         res.status(500).json({ message: "Error fetching authors" });
