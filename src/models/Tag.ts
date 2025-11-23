@@ -1,23 +1,14 @@
 import { model, Schema } from "mongoose";
 
-const postSchema = new Schema({
-    title: {
+const tagSchema = new Schema({
+    name: {
         type: String,
         required: true,
     },
-    body: {
-        type: String,
-        required: true,
-    },
-    author: {
-        type: Schema.Types.ObjectId,
-        ref: "Author",
-        required: true,
-    },
-    tags: [
+    posts: [
         {
             type: Schema.Types.ObjectId,
-            ref: "Tag",
+            ref: "Post",
         },
     ],
     createdAt: {
@@ -28,9 +19,8 @@ const postSchema = new Schema({
         type: Date,
         default: Date.now,
     },
-
 });
 
-const Post = model("Post", postSchema);
+const Tag = model("Tag", tagSchema);
 
-export default Post;
+export default Tag;
