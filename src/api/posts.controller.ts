@@ -1,49 +1,49 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import Post from "../models/Post";
 
-const getAllPosts = async (req: Request, res: Response) => {
+const getAllPosts = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const posts = await Post.find().populate("author", "name");
         res.status(200).json(posts);
     } catch (error) {
-        res.status(500).json({ message: "Error fetching posts" });
+        next(error);
     }
 
 };
 
-const createPost = async (req: Request, res: Response) => {
+const createPost = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const post = await Post.create(req.body);
         res.status(201).json(post);
     } catch (error) {
-        res.status(500).json({ message: "Error creating post" });
+        next(error);
     }
 };
 
-const getPostById = async (req: Request, res: Response) => {
+const getPostById = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const post = await Post.findById(req.params.id).populate("author", "name");
         res.status(200).json(post);
     } catch (error) {
-        res.status(500).json({ message: "Error fetching post" });
+        next(error);
     }
 };
 
-const updatePost = async (req: Request, res: Response) => {
+const updatePost = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const post = await Post.findByIdAndUpdate(req.params.id, req.body, { new: true });
         res.status(200).json(post);
     } catch (error) {
-        res.status(500).json({ message: "Error updating post" });
+        next(error);
     }
 };
 
-const deletePost = async (req: Request, res: Response) => {
+const deletePost = async (req: Request, res: Response, next: NextFunction) => {
     try {
         await Post.findByIdAndDelete(req.params.id);
         res.status(200).json({ message: "Post deleted" });
     } catch (error) {
-        res.status(500).json({ message: "Error deleting post" });
+        next(error);
     }
 };
 

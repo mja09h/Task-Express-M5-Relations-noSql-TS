@@ -1,26 +1,26 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import Tag from "../../models/Tag";
 import Post from "../../models/Post";
 
-const createTag = async (req: Request, res: Response) => {
+const createTag = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const tag = await Tag.create(req.body);
         res.status(201).json(tag);
     } catch (error) {
-        res.status(500).json({ message: "Error creating tag" });
+        next(error);
     }
 };
 
-const deleteTag = async (req: Request, res: Response) => {
+const deleteTag = async (req: Request, res: Response, next: NextFunction) => {
     try {
         await Tag.findByIdAndDelete(req.params.id);
         res.status(200).json({ message: "Tag deleted" });
     } catch (error) {
-        res.status(500).json({ message: "Error deleting tag" });
+        next(error);
     }
 };
 
-const addTagToPost = async (req: Request, res: Response) => {
+const addTagToPost = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { postId, tagId } = req.params;
         const findTag = await Tag.findByIdAndUpdate(tagId, {
@@ -33,7 +33,7 @@ const addTagToPost = async (req: Request, res: Response) => {
 
         res.status(200).json({ message: "Tag added to post" });
     } catch (error) {
-        res.status(500).json({ message: "Error adding tag to post" });
+        next(error);
     }
 };
 
