@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Tag from "../../models/Tag";
+import Post from "../../models/Post";
 
 const createTag = async (req: Request, res: Response) => {
     try {
@@ -19,6 +20,21 @@ const deleteTag = async (req: Request, res: Response) => {
     }
 };
 
+const addTagToPost = async (req: Request, res: Response) => {
+    try {
+        const { postId, tagId } = req.params;
+        const findTag = await Tag.findByIdAndUpdate(tagId, {
+            $push: { posts: postId },
+        });
 
+        const findPost = await Post.findByIdAndUpdate(postId, {
+            $push: { tags: tagId },
+        });
 
-export { createTag, deleteTag };
+        res.status(200).json({ message: "Tag added to post" });
+    } catch (error) {
+        res.status(500).json({ message: "Error adding tag to post" });
+    }
+};
+
+export { createTag, deleteTag, addTagToPost };
