@@ -14,6 +14,10 @@ const postSchema = new Schema({
         ref: "Author",
         required: true,
     },
+    image: {
+        type: String,
+        required: false,
+    },
     tags: [
         {
             type: Schema.Types.ObjectId,

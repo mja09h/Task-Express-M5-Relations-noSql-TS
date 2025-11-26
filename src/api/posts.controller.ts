@@ -14,6 +14,12 @@ const getAllPosts = async (req: Request, res: Response, next: NextFunction) => {
 const createPost = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const post = await Post.create(req.body);
+        let image = null;
+
+        if (req.file) {
+            image = req.file.path;
+        }
+
         res.status(201).json(post);
     } catch (error) {
         next(error);
